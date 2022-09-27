@@ -23,7 +23,7 @@ contract VoteFactory is IVoteFactory {
         uint256 _totalAudience,
         uint256 _rewardPresenter,
         uint256 _rewardAudience
-    ) external returns (address pair) {
+    ) external returns (address voteAddr) {
         bytes memory bytecode = type(Vote).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(countVote));
         assembly {

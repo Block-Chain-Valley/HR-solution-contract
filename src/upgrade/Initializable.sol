@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts (last updated v4.5.0) (proxy/utils/Initializable.sol)
 
-pragma solidity 0.8.11;
+pragma solidity 0.8.15;
 
 import "./AddressUpgradeable.sol";
 
@@ -141,10 +141,7 @@ abstract contract Initializable {
             );
             return false;
         } else {
-            require(
-                _initialized < version,
-                "Initializable: contract is already initialized"
-            );
+            require(_initialized < version, "Initializable: contract is already initialized");
             _initialized = version;
             return true;
         }
