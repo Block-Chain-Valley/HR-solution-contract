@@ -7,7 +7,7 @@ import "./Vote.sol";
 contract VoteFactory is IVoteFactory {
     // 투표 index -> 투표 컨트랙트 주소
     mapping(uint256 => address) public getVote;
-    // 투표 컨트랙트 주소 => 컨트랙 존재 유무
+    // 투표 컨트랙트 주소 => 컨트랙 존재 유무 //
     mapping(address => bool) public isVote;
     uint256 public countVote;
 
@@ -24,17 +24,20 @@ contract VoteFactory is IVoteFactory {
         uint256 _rewardPresenter,
         uint256 _rewardAudience
     ) external returns (address voteAddr) {
+        uint256 localCountVote = countVote;
+
         bytes memory bytecode = type(Vote).creationCode;
-        bytes32 salt = keccak256(abi.encodePacked(countVote));
+        bytes32 salt = keccak256(abi.encodePacked(localCountVote));
         assembly {
             voteAddr := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
 
         IVote(voteAddr).initialize(_totalAudience, _rewardPresenter, _rewardAudience);
 
-        getVote[countVote] = voteAddr;
+        getVote[localCountVote] = voteAddr;
         isVote[voteAddr] = true;
 
+        countVote = localCountVote + 1;
         // emit VoteCreated();
     }
 }
