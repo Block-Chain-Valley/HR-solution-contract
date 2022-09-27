@@ -16,7 +16,7 @@
     "remove:console": "export $(cat env/.hardhat.env | xargs) && npx hardhat remove-logs",
     "node:hardhat": "export $(cat env/.hardhat.env | xargs) && npx hardhat node --network hardhat --export ./deployments/hardhat.json",
     "deploy:hardhat": "export $(cat env/.hardhat.env | xargs) && npx hardhat deploy --network hardhat --watch --export ./deployments/hardhat.json",
-    "start:hardhat": "export $(cat env/.hardhat.env | xargs) && npx ts-node",
+    "start:hardhat": "export $(cat env/.hardhat.env | xargs) && npx ts-node"
   },
   "dependencies": {
     "@ethereum-waffle/mock-contract": "3.4.4",
