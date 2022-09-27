@@ -9,6 +9,12 @@ contract Vote is IVote {
 
     constructor() {}
 
+    function initialize(
+        uint256 _totalAudience,
+        uint256 _rewardPresenter,
+        uint256 _rewardAudience
+    ) external {}
+
     function voteAudience(address _audience) external returns (bool result);
 
     function voteResult() external view returns (VoteState memory voteState);

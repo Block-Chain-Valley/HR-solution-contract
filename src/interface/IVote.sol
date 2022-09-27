@@ -21,6 +21,12 @@ interface Vote {
 
     event VoteResult(uint256 _timestamp, uint256 _totalAudience, uint256 _approvedAudience, State _result);
 
+    function initialize(
+        uint256 _totalAudience,
+        uint256 _rewardPresenter,
+        uint256 _rewardAudience
+    ) external;
+
     function voteAudience(address _audience) external returns (bool result);
 
     function voteResult() external view returns (VoteState memory voteState);
