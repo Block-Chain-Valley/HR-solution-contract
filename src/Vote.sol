@@ -3,13 +3,13 @@ pragma solidity ^0.8.15;
 import "./interface/IVote.sol";
 
 contract Vote is IVote {
-    function initialize(
-        uint256 _totalAudience,
-        uint256 _rewardPresenter,
-        uint256 _rewardAudience
-    ) external {}
+    event VoteStart(uint256 _timestamp);
 
-    function voteAudience(address _audience) external returns (bool result) {}
+    event VoteResult(uint256 _timestamp, uint256 _totalAudience, uint256 _approvedAudience, State _result);
 
-    function voteResult() external view returns (VoteState memory voteState) {}
+    constructor() {}
+
+    function voteAudience(address _audience) external returns (bool result);
+
+    function voteResult() external view returns (VoteState memory voteState);
 }

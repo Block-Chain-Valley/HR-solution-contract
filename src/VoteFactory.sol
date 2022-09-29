@@ -2,42 +2,52 @@
 pragma solidity ^0.8.15;
 
 import "./interface/IVoteFactory.sol";
-import "./Vote.sol";
 
-contract VoteFactory is IVoteFactory {
-    // 투표 index -> 투표 컨트랙트 주소
-    mapping(uint256 => address) public getVote;
-    // 투표 컨트랙트 주소 => 컨트랙 존재 유무 //
-    mapping(address => bool) public isVote;
-    uint256 public countVote;
+contract VoteFactory is IVoteFactory {}
 
-    // event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
+pragma solidity =0.5.16;
 
-    constructor() {}
+contract UniswapV2Factory is IUniswapV2Factory {
+    address public feeTo;
+    address public feeToSetter;
 
-    function initialize() external {
-        countVote = 0;
+    mapping(address => mapping(address => address)) public getPair;
+    address[] public allPairs;
+
+    event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
+
+    constructor(address _feeToSetter) public {
+        feeToSetter = _feeToSetter;
     }
 
-    function createVote(
-        uint256 _totalAudience,
-        uint256 _rewardPresenter,
-        uint256 _rewardAudience
-    ) external returns (address voteAddr) {
-        uint256 localCountVote = countVote;
+    function allPairsLength() external view returns (uint256) {
+        return allPairs.length;
+    }
 
-        bytes memory bytecode = type(Vote).creationCode;
-        bytes32 salt = keccak256(abi.encodePacked(localCountVote));
+    function createPair(address tokenA, address tokenB) external returns (address pair) {
+        require(tokenA != tokenB, "UniswapV2: IDENTICAL_ADDRESSES");
+        (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
+        require(token0 != address(0), "UniswapV2: ZERO_ADDRESS");
+        require(getPair[token0][token1] == address(0), "UniswapV2: PAIR_EXISTS"); // single check is sufficient
+        bytes memory bytecode = type(UniswapV2Pair).creationCode;
+        bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
-            voteAddr := create2(0, add(bytecode, 32), mload(bytecode), salt)
+            pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
+        IUniswapV2Pair(pair).initialize(token0, token1);
+        getPair[token0][token1] = pair;
+        getPair[token1][token0] = pair; // populate mapping in the reverse direction
+        allPairs.push(pair);
+        emit PairCreated(token0, token1, pair, allPairs.length);
+    }
 
-        IVote(voteAddr).initialize(_totalAudience, _rewardPresenter, _rewardAudience);
+    function setFeeTo(address _feeTo) external {
+        require(msg.sender == feeToSetter, "UniswapV2: FORBIDDEN");
+        feeTo = _feeTo;
+    }
 
-        getVote[localCountVote] = voteAddr;
-        isVote[voteAddr] = true;
-
-        countVote = localCountVote + 1;
-        // emit VoteCreated();
+    function setFeeToSetter(address _feeToSetter) external {
+        require(msg.sender == feeToSetter, "UniswapV2: FORBIDDEN");
+        feeToSetter = _feeToSetter;
     }
 }
