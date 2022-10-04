@@ -22,7 +22,8 @@ contract VoteFactory is IVoteFactory {
     function createVote(
         uint256 _totalAudience,
         uint256 _rewardPresenter,
-        uint256 _rewardAudience
+        uint256 _rewardAudience,
+        address[] _audience
     ) external returns (address voteAddr) {
         uint256 localCountVote = countVote;
 
@@ -32,7 +33,7 @@ contract VoteFactory is IVoteFactory {
             voteAddr := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
 
-        IVote(voteAddr).initialize(_totalAudience, _rewardPresenter, _rewardAudience);
+        IVote(voteAddr).initialize(_totalAudience, _rewardPresenter, _rewardAudience, _audience);
 
         getVote[localCountVote] = voteAddr;
         isVote[voteAddr] = true;

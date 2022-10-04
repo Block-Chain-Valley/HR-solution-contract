@@ -24,7 +24,8 @@ interface IVote {
     function initialize(
         uint256 _totalAudience,
         uint256 _rewardPresenter,
-        uint256 _rewardAudience
+        uint256 _rewardAudience,
+        address[] _audience
     ) external;
 
     function voteAudience(address _audience) external returns (bool);
