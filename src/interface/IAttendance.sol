@@ -7,11 +7,11 @@ interface IAttendance {
         Attend
     }
 
-    function getAttendance(address, uint256) public view returns (attendanceState);
+    function getAttendance(address member, uint256 date) public view returns (attendanceState);
 
     function setAttendance(
-        address,
-        string,
-        uint256
+        address member,
+        string state,
+        uint256 date
     ) external;
 }
