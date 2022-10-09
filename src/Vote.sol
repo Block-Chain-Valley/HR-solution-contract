@@ -17,6 +17,7 @@ import "./interface/IVote.sol";
 contract Vote is IVote {
     VoteState vote;
     bool isInitialized = false;
+    event Success(bool result);
 
     function initialize(
         uint256 totalAudience,
@@ -42,7 +43,7 @@ contract Vote is IVote {
         isInitialized = true;
     }
 
-    function voteAudience(address walletAddress, uint256 totalAudience) external returns (bool result) {
+    function voteAudience() external {
         VoteState memory voteLocal = vote;
         uint256 memberListLength = voteLocal._memberList.length;
         bool isInMemberList = false;
@@ -54,10 +55,14 @@ contract Vote is IVote {
             }
         }
 
-        require(isInMemberList == true, "msg.sender must be audience");
+        if (isInMemberList == false) {
+            emit Success(false);
+            revert("msg.sender must be audience");
+        }
         require(block.timestamp <= voteLocal._endTime, "vote finished");
 
         voteLocal._approvedAudience = voteLocal._approvedAudience + 1;
+        emit Success(true);
 
         // TODO: 토큰 컨트랙트 구현 후 추가 필요
         // BvTokenContractInstance.giveReward(msg.sender, voteLocal._rewardAudience);
@@ -66,6 +71,5 @@ contract Vote is IVote {
         }
 
         vote = voteLocal;
-        // event Success(bool result);
     }
 }

@@ -31,5 +31,5 @@ interface IVote {
         address presenter
     ) external;
 
-    // function voteAudience(address) external returns (bool);
+    function voteAudience() external;
 }
