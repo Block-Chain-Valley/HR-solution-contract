@@ -27,11 +27,9 @@ interface IVote {
         uint256 totalAudience,
         uint256 rewardPresenter,
         uint256 rewardAudience,
-        address[] memberList,
+        address[] memory memberList,
         address presenter
     ) external;
 
     // function voteAudience(address) external returns (bool);
-
-    function voteResult() external view returns (VoteState memory);
 }

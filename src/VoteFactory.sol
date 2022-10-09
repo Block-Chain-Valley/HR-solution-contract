@@ -23,7 +23,7 @@ contract VoteFactory is IVoteFactory {
         uint256 totalAudience,
         uint256 rewardPresenter,
         uint256 rewardAudience,
-        address[] memberList,
+        address[] memory memberList,
         address presenter
     ) external returns (address voteAddr) {
         uint256 localCountVote = countVote;

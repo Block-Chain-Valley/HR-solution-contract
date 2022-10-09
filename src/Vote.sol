@@ -2,53 +2,70 @@ pragma solidity ^0.8.15;
 
 import "./interface/IVote.sol";
 
-contract Vote is IVote {
-    mapping(uint256 => VoteState) public voteStateMap;
-    uint256 public countVote;
+// struct VoteState {
+//         State _state;
+//         uint256 _totalAudience;
+//         uint256 _approvedAudience;
+//         uint256 _startTime;
+//         uint256 _endTime;
+//         uint256 _rewardPresenter;
+//         uint256 _rewardAudience;
+//         address[] _memberList;
+//         address _presenter;
+//     }
 
-     function initialize() external {
-        countVote = 0;
-    }
+contract Vote is IVote {
+    VoteState vote;
+    bool isInitialized = false;
 
     function initialize(
         uint256 totalAudience,
         uint256 rewardPresenter,
         uint256 rewardAudience,
-        address[] memberList,
+        address[] memory memberList,
         address presenter
     ) external {
-        VoteState voteState = (,,,,,,,);
+        require(isInitialized == false, "Can be Initialized only once");
+        VoteState memory voteLocal;
 
-        voteState._state = Ongoing;
-        voteState._totalAudience = totalAudience;
-        voteState._rewardPresenter = rewardPresenter;
-        voteState._rewardAudience = rewardAudience;
-        voteState._memberList =  memberList;
-        voteState._presenter = presenter;
-        voteState._startTime = block.timestamp;
-        voteState._endTime = block.timestamp + 300;
+        voteLocal._state = State.Ongoing;
+        voteLocal._totalAudience = totalAudience;
+        voteLocal._rewardPresenter = rewardPresenter;
+        voteLocal._rewardAudience = rewardAudience;
+        voteLocal._memberList = memberList;
+        voteLocal._presenter = presenter;
+        voteLocal._startTime = block.timestamp;
+        // TODO: 테스팅 시 시간 확인 필요
+        voteLocal._endTime = block.timestamp + 300;
 
-        voteStateMap[countVote] = voteState; //uint와 VoteState 구조체 mapping인 voteStateMap에 VoteState 저장.
-
-        countVote++;
+        vote = voteLocal;
+        isInitialized = true;
     }
 
     function voteAudience(address walletAddress, uint256 totalAudience) external returns (bool result) {
-    
-        BVToken.giveReward(voteState._rewardAudience)
-        /*
-        input으로 주소 받고 require로 memberList에 지갑주소가 있는지
-        현재 시간이 endTime보다 작은지
-        require(block.timestamp<voteState._endTime)
-        endTime이후에 memberList랑 지갑주소 비교해서 없으면 Success되지 않았다는 것을 return,
-        memberList에 지갑주소 있으면 event로 Success return.
+        VoteState memory voteLocal = vote;
+        uint256 memberListLength = voteLocal._memberList.length;
+        bool isInMemberList = false;
 
-        */
-        
-            
+        for (uint256 i = 0; i < memberListLength; i += 1) {
+            if (voteLocal._memberList[i] == msg.sender) {
+                isInMemberList = true;
+                break;
+            }
         }
-    
-    }
 
-    function voteResult() external view returns (VoteState memory voteState) {}
+        require(isInMemberList == true, "msg.sender must be audience");
+        require(block.timestamp <= voteLocal._endTime, "vote finished");
+
+        voteLocal._approvedAudience = voteLocal._approvedAudience + 1;
+
+        // TODO: 토큰 컨트랙트 구현 후 추가 필요
+        // BvTokenContractInstance.giveReward(msg.sender, voteLocal._rewardAudience);
+        if (voteLocal._approvedAudience == (voteLocal._totalAudience * 2) / 3) {
+            // BvTokenContractInstance.giveReward(voteLocal._presenter, voteLocal._rewardPresenter);
+        }
+
+        vote = voteLocal;
+        // event Success(bool result);
+    }
 }
