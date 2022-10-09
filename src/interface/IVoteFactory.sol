@@ -5,6 +5,7 @@ interface IVoteFactory {
         uint256 _totalAudience,
         uint256 _rewardPresenter,
         uint256 _rewardAudience,
-        address[] _audience
+        address[] _memberList,
+        address _presenter
     ) external returns (address voteAddress);
 }
