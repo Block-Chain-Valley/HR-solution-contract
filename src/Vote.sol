@@ -67,7 +67,7 @@ contract Vote is IVote {
 
         if (block.timestamp >= voteLocal._endTime) {
             if (voteLocal._approvedAudience < (voteLocal._totalAudience * 2) / 3) {
-                voteLocal._state = Rejected;
+                voteLocal._state = State.Rejected;
             }
         } else {
             voteLocal._approvedAudience = voteLocal._approvedAudience + 1;
