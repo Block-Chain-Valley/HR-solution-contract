@@ -3,19 +3,19 @@ pragma solidity ^0.8.15;
 import "./IAttendance.sol";
 
 interface IView {
-    function getAttendance(address member, uint256 date) external returns (AttendanceState);
+    // function getAttendance(address member, uint256 date) external returns (AttendanceState);
 
     function getVoteAddress(uint256 date) external returns (address voteContractAddress);
 
-    function getAttendanceAddress() external returns (address);
+    // function getAttendanceAddress() external returns (address);
 
-    function getBVTokenAddress() external returns (address);
+    // function getBVTokenAddress() external returns (address);
 
     function getVoteFactoryAddress() external returns (address);
 
-    function setAttendanceAddress(address attendanceAddress) external;
+    // function setAttendanceAddress(address attendanceAddress) external;
 
-    function setBVTokenAddress(address bvTokenAddress) external;
+    // function setBVTokenAddress(address bvTokenAddress) external;
 
     function setVoteFactoryAddress(address voteFactoryAddress) external;
 }

@@ -15,11 +15,8 @@ contract VoteFactory is IVoteFactory {
     // event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
     constructor(address viewAddr_) {
-        viewAddr = viewAddr_;
-    }
-
-    constructor() {
         admin = msg.sender;
+        viewAddr = viewAddr_;
     }
 
     modifier onlyAdmin() {
