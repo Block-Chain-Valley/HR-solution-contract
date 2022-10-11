@@ -5,14 +5,35 @@ import "./interface/IVoteFactory.sol";
 import "./Vote.sol";
 
 contract VoteFactory is IVoteFactory {
+    address viewAddr;
     // 투표 index -> 투표 컨트랙트 주소
     mapping(uint256 => address) public getVote;
     // 투표 컨트랙트 주소 => 컨트랙 존재 유무 //
     mapping(address => bool) public isVote;
+    address public admin;
 
     // event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
-    constructor() {}
+    constructor(address viewAddr_) {
+        viewAddr = viewAddr_;
+    }
+
+    constructor() {
+        admin = msg.sender;
+    }
+
+    modifier onlyAdmin() {
+        require(admin == msg.sender, "ACCESS_DENIED");
+        _;
+    }
+
+    function setAdmin() private onlyAdmin {
+        admin = msg.sender;
+    }
+
+    function setViewAddr(address newViewAddr) external onlyAdmin {
+        viewAddr = newViewAddr;
+    }
 
     function createVote(
         uint256 totalAudience,
@@ -29,7 +50,7 @@ contract VoteFactory is IVoteFactory {
             voteAddr := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
 
-        IVote(voteAddr).initialize(totalAudience, rewardPresenter, rewardAudience, memberList, presenter);
+        IVote(voteAddr).initialize(viewAddr, totalAudience, rewardPresenter, rewardAudience, memberList, presenter);
 
         getVote[date] = voteAddr;
         isVote[voteAddr] = true;

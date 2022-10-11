@@ -20,8 +20,10 @@ contract Vote is IVote {
     VoteState vote;
     bool isInitialized = false;
     event Success(bool result);
+    address viewAddr;
 
     function initialize(
+        address viewAddr_,
         uint256 totalAudience,
         uint256 rewardPresenter,
         uint256 rewardAudience,
@@ -31,6 +33,7 @@ contract Vote is IVote {
         require(isInitialized == false, "Can be Initialized only once");
         VoteState memory voteLocal;
 
+        viewAddr = viewAddr_;
         voteLocal._state = State.Ongoing;
         voteLocal._totalAudience = totalAudience;
         voteLocal._rewardPresenter = rewardPresenter;
@@ -39,7 +42,7 @@ contract Vote is IVote {
         voteLocal._presenter = presenter;
         voteLocal._startTime = block.timestamp;
         // TODO: 테스팅 시 시간 확인 필요
-        voteLocal._endTime = block.timestamp + 300;
+        voteLocal._endTime = block.timestamp + 10800;
 
         vote = voteLocal;
         isInitialized = true;
@@ -61,14 +64,23 @@ contract Vote is IVote {
             emit Success(false);
             revert("msg.sender must be audience");
         }
-        require(block.timestamp <= voteLocal._endTime, "vote finished");
 
-        voteLocal._approvedAudience = voteLocal._approvedAudience + 1;
-        emit Success(true);
+        if (block.timestamp >= voteLocal._endTime) {
+            if (voteLocal._approvedAudience < (voteLocal._totalAudience * 2) / 3) {
+                voteLocal._state = Rejected;
+            }
+        } else {
+            voteLocal._approvedAudience = voteLocal._approvedAudience + 1;
+            emit Success(true);
 
-        BvTokenContractInstance.giveReward(msg.sender, voteLocal._rewardAudience);
-        if (voteLocal._approvedAudience == (voteLocal._totalAudience * 2) / 3) {
-            BvTokenContractInstance.giveReward(voteLocal._presenter, voteLocal._rewardPresenter);
+            address bvTokenAddr = IView(viewAddr).getBVTokenAddress();
+            IBVToken(bvTokenAddr).giveReward(msg.sender, voteLocal._rewardAudience);
+            if (voteLocal._approvedAudience >= (voteLocal._totalAudience * 2) / 3) {
+                IBVToken(bvTokenAddr).giveReward(voteLocal._presenter, voteLocal._rewardPresenter);
+                voteLocal._state = State.Approved;
+            } else if (voteLocal._approvedAudience < (voteLocal._totalAudience * 2) / 3) {
+                voteLocal._state = State.Ongoing;
+            }
         }
 
         vote = voteLocal;
