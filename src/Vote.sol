@@ -1,6 +1,8 @@
 pragma solidity ^0.8.15;
 
 import "./interface/IVote.sol";
+import "./interface/IView.sol";
+import "./interface/IBVToken.sol";
 
 // struct VoteState {
 //         State _state;
@@ -64,10 +66,9 @@ contract Vote is IVote {
         voteLocal._approvedAudience = voteLocal._approvedAudience + 1;
         emit Success(true);
 
-        // TODO: 토큰 컨트랙트 구현 후 추가 필요
-        // BvTokenContractInstance.giveReward(msg.sender, voteLocal._rewardAudience);
+        BvTokenContractInstance.giveReward(msg.sender, voteLocal._rewardAudience);
         if (voteLocal._approvedAudience == (voteLocal._totalAudience * 2) / 3) {
-            // BvTokenContractInstance.giveReward(voteLocal._presenter, voteLocal._rewardPresenter);
+            BvTokenContractInstance.giveReward(voteLocal._presenter, voteLocal._rewardPresenter);
         }
 
         vote = voteLocal;
