@@ -3,7 +3,7 @@
   "chainId": "5",
   "contracts": {
     "View": {
-      "address": "0xE13b85B5a1cE1Ff084019520783f98254aefDc55",
+      "address": "0x30e12a2f8C933ba13482BaB0B795524c48E3Aef8",
       "abi": [
         {
           "anonymous": false,
@@ -105,7 +105,7 @@
       ]
     },
     "VoteFactory": {
-      "address": "0x4b56262A5FCFEbD1a217F6066891a551e85832ec",
+      "address": "0x9516802877A213fB7D3269041D0f0c10acFaD91C",
       "abi": [
         {
           "inputs": [

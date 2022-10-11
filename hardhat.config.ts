@@ -85,7 +85,7 @@ const config: HardhatUserConfig = {
             chainId: +(CHAIN_ID || 0),
             from: DEPLOYER_ACCOUNT || "",
             gas: "auto",
-            accounts: [DEPLOYER_PRIVATE_KEY || "0"],
+            accounts: [`0x${DEPLOYER_PRIVATE_KEY}` || "0"],
         },
     },
     gasReporter: {
