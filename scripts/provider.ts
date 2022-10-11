@@ -27,8 +27,6 @@ if (!account) throw new Error("계정을 불러올 수 없습니다. 환경변�
 
 const getProvider = () => {
     const network = process.env.NETWORK as Network;
-    console.log(network);
-    console.log(rpcInfo["goerli"]);
     return new ethers.providers.JsonRpcProvider(rpcInfo[network].url);
 };
 
