@@ -16,9 +16,6 @@ contract VoteFactory is IVoteFactory {
 
     constructor(address viewAddr_) {
         viewAddr = viewAddr_;
-    }
-
-    constructor() {
         admin = msg.sender;
     }
 

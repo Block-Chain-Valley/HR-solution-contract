@@ -11,12 +11,12 @@ contract View is Ownable, IView {
     address private _bvTokenAddress;
     address private _voteFactoryAddress;
 
-    function getAttendance(address member, uint256 date) public returns (AttendanceState) {
-        return IAttendance(attendanceAddress).getAttendance(member, date);
-    }
+    // function getAttendance(address member, uint256 date) public returns (AttendanceState) {
+    //     return IAttendance(attendanceAddress).getAttendance(member, date);
+    // }
 
     function getVoteAddress(uint256 date) public returns (address voteContractAddress) {
-        return IVoteFactory(voteFactoryAddress).getVoteAddress(date);
+        return IVoteFactory(_voteFactoryAddress).getVoteAddress(date);
     }
 
     function getAttendanceAddress() public returns (address) {
