@@ -1,6 +1,8 @@
 pragma solidity ^0.8.15;
 
 interface IVoteFactory {
+    function isVote(address vote) external returns (bool);
+
     function createVote(
         uint256 totalAudience,
         uint256 rewardPresenter,

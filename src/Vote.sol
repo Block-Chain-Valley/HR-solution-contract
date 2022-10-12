@@ -3,7 +3,7 @@ pragma solidity ^0.8.15;
 import "./interface/IVote.sol";
 import "./interface/IView.sol";
 
-// import "./interface/IBVToken.sol";
+import "./interface/IBVToken.sol";
 
 contract Vote is IVote {
     VoteState vote;
@@ -62,10 +62,10 @@ contract Vote is IVote {
             voteLocal._approvedAudience = voteLocal._approvedAudience + 1;
             emit Success(true);
 
-            // address bvTokenAddr = IView(viewAddr).getBVTokenAddress();
-            // IBVToken(bvTokenAddr).giveReward(msg.sender, voteLocal._rewardAudience);
+            address bvTokenAddr = IView(viewAddr).getBVTokenAddress();
+            IBVToken(bvTokenAddr).giveReward(msg.sender, voteLocal._rewardAudience);
             if (voteLocal._approvedAudience >= (voteLocal._totalAudience * 2) / 3) {
-                // IBVToken(bvTokenAddr).giveReward(voteLocal._presenter, voteLocal._rewardPresenter);
+                IBVToken(bvTokenAddr).giveReward(voteLocal._presenter, voteLocal._rewardPresenter);
                 voteLocal._state = State.Approved;
             } else if (voteLocal._approvedAudience < (voteLocal._totalAudience * 2) / 3) {
                 voteLocal._state = State.Ongoing;
