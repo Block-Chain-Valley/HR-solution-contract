@@ -14,7 +14,7 @@ contract Attendance is IAttendance {
         string memory state,
         uint256 date
     ) external {
-        require(bytes(attendanceStatus[member][date]).length > 0, "State is already written.");
+        require(bytes(attendanceStatus[member][date]).length == 0, "State is already written.");
         attendanceStatus[member][date] = state;
     }
 }
