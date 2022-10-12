@@ -3,7 +3,7 @@
   "chainId": "5",
   "contracts": {
     "View": {
-      "address": "0x0CF6D3D3FEC650Cf8dABC925f8307ACC997a425C",
+      "address": "0x5eE8eB4804a8161505084FCbD65B14FD65cEC79e",
       "abi": [
         {
           "anonymous": false,
@@ -26,12 +26,101 @@
         },
         {
           "inputs": [],
+          "name": "getAllVoteStatus",
+          "outputs": [
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "voteAddr",
+                  "type": "address"
+                },
+                {
+                  "internalType": "enum IVote.State",
+                  "name": "state",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "totalAudience",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "approvedAudience",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "startTime",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "endTime",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rewardPresenter",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rewardAudience",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "address[]",
+                  "name": "memberList",
+                  "type": "address[]"
+                },
+                {
+                  "internalType": "address",
+                  "name": "presenter",
+                  "type": "address"
+                }
+              ],
+              "internalType": "struct IView.VoteStatus[]",
+              "name": "allVoteStatus",
+              "type": "tuple[]"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
           "name": "getAttendanceAddress",
           "outputs": [
             {
               "internalType": "address",
               "name": "",
               "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "date",
+              "type": "uint256"
+            }
+          ],
+          "name": "getAttendanceStatus",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "attendance",
+              "type": "string"
             }
           ],
           "stateMutability": "nonpayable",
@@ -77,6 +166,77 @@
               "internalType": "address",
               "name": "",
               "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "_voteAddr",
+              "type": "address"
+            }
+          ],
+          "name": "getVoteStatusWithAddress",
+          "outputs": [
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "voteAddr",
+                  "type": "address"
+                },
+                {
+                  "internalType": "enum IVote.State",
+                  "name": "state",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "totalAudience",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "approvedAudience",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "startTime",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "endTime",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rewardPresenter",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "rewardAudience",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "address[]",
+                  "name": "memberList",
+                  "type": "address[]"
+                },
+                {
+                  "internalType": "address",
+                  "name": "presenter",
+                  "type": "address"
+                }
+              ],
+              "internalType": "struct IView.VoteStatus",
+              "name": "voteStatus",
+              "type": "tuple"
             }
           ],
           "stateMutability": "nonpayable",
@@ -157,7 +317,7 @@
       ]
     },
     "VoteFactory": {
-      "address": "0x934067AB8cF0FB1434AD35AE7c9A825390A6C308",
+      "address": "0x9e6E89443b7AdC12F36384e0f6AC3A4cC90f8b55",
       "abi": [
         {
           "inputs": [
@@ -181,6 +341,38 @@
             }
           ],
           "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "allVotes",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "allVotesLength",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "length",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
           "type": "function"
         },
         {
@@ -294,8 +486,33 @@
       ]
     },
     "Attendance": {
-      "address": "0x57eB00425AFC0627FB5FAfFb82f4287a46335b0b",
+      "address": "0x89DBb743d97C0e85aE416425271511C5DE93FBfa",
       "abi": [
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "uint256",
+              "name": "date",
+              "type": "uint256"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "member",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "string",
+              "name": "status",
+              "type": "string"
+            }
+          ],
+          "name": "AttendanceResult",
+          "type": "event"
+        },
         {
           "inputs": [
             {
@@ -370,7 +587,7 @@
       ]
     },
     "BVToken_Implementation": {
-      "address": "0x065b0FF7124d9d10B313C0Acf829c3Fd64647A01",
+      "address": "0xa1FBbc647a4505787975CB9D4Fc2809Cae07585B",
       "abi": [
         {
           "inputs": [],
@@ -1083,7 +1300,7 @@
       ]
     },
     "BVToken_Proxy": {
-      "address": "0x2001c2c6cC46D9e087e94d60B3Ecd683d3EB78cF",
+      "address": "0xcBf6D94466ddf646272924A78f3f53Af6E739B9d",
       "abi": [
         {
           "inputs": [
@@ -1231,7 +1448,7 @@
       ]
     },
     "BVToken": {
-      "address": "0x2001c2c6cC46D9e087e94d60B3Ecd683d3EB78cF",
+      "address": "0xcBf6D94466ddf646272924A78f3f53Af6E739B9d",
       "abi": [
         {
           "anonymous": false,
