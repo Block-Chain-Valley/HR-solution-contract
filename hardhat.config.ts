@@ -80,13 +80,13 @@ const config: HardhatUserConfig = {
             tags: ["hardhat", "test"],
             chainId: 1337,
         },
-        goerli: {
-            url: PRIVATE_PROVIDER_URL || "",
-            chainId: +(CHAIN_ID || 0),
-            from: DEPLOYER_ACCOUNT || "",
-            gas: "auto",
-            accounts: [`0x${DEPLOYER_PRIVATE_KEY}` || "0"],
-        },
+        // goerli: {
+        //     url: PRIVATE_PROVIDER_URL || "",
+        //     chainId: +(CHAIN_ID || 0),
+        //     from: DEPLOYER_ACCOUNT || "",
+        //     gas: "auto",
+        //     accounts: [`0x${DEPLOYER_PRIVATE_KEY}` || "0"],
+        // },
     },
     gasReporter: {
         enabled: process.env.REPORT_GAS !== undefined,

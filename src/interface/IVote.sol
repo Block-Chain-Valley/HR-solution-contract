@@ -32,5 +32,7 @@ interface IVote {
         address presenter
     ) external;
 
+    function getVote() external returns (VoteState memory);
+
     function voteAudience() external;
 }
