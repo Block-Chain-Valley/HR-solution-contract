@@ -3,7 +3,8 @@ coverage
 coverage.json
 yarn-error.log
 
-env
+!env/
+env/*
 
 deployments/hardhat
 deployments/localhost
