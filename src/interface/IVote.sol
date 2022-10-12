@@ -24,6 +24,7 @@ interface IVote {
     // event VoteResult(uint256 _timestamp, uint256 _totalAudience, uint256 _approvedAudience, State _result);
 
     function initialize(
+        address viewAddr,
         uint256 totalAudience,
         uint256 rewardPresenter,
         uint256 rewardAudience,
@@ -31,5 +32,5 @@ interface IVote {
         address presenter
     ) external;
 
-    // function voteAudience(address) external returns (bool);
+    function voteAudience() external;
 }
