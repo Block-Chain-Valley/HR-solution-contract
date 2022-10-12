@@ -6,10 +6,10 @@ import "./interface/IView.sol";
 import "./interface/IBVToken.sol";
 
 contract Vote is IVote {
-    VoteState vote;
-    bool isInitialized = false;
+    VoteState public vote;
+    address public viewAddr;
+    bool public isInitialized = false;
     event Success(bool result);
-    address viewAddr;
 
     function initialize(
         address viewAddr_,
@@ -35,6 +35,10 @@ contract Vote is IVote {
 
         vote = voteLocal;
         isInitialized = true;
+    }
+
+    function getVote() external returns (VoteState memory) {
+        return vote;
     }
 
     function voteAudience() external {
