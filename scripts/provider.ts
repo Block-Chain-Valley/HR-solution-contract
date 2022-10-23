@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 // Types
-export type Network = "goerli";
+export type Network = "goerli" | "baobab" | "cypress";
 
 type providerType = ethers.providers.JsonRpcProvider;
 type walletType = ethers.Wallet;
@@ -16,6 +16,15 @@ export const rpcInfo: {
     goerli: {
         url: "https://eth-goerli.g.alchemy.com/v2/12xRY7CS4q3Ug9iNsQwdjULKtHeB0P4K",
         chainId: 5,
+    },
+    baobab: {
+        url: "https://public-node-api.klaytnapi.com/v1/baobab",
+        chainId: 1001,
+    },
+    cypress: {
+        // TODO: 추가 필요
+        url: "https://public-node-api.klaytnapi.com/v1/cypress",
+        chainId: 8217,
     },
 };
 

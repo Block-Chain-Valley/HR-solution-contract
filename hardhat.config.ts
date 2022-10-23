@@ -87,6 +87,34 @@ const config: HardhatUserConfig = {
         //     gas: "auto",
         //     accounts: [`0x${DEPLOYER_PRIVATE_KEY}` || "0"],
         // },
+        baobab: {
+            url: PRIVATE_PROVIDER_URL || "",
+            chainId: +(CHAIN_ID || 0),
+            from: DEPLOYER_ACCOUNT || "",
+            gas: "auto",
+            accounts: [DEPLOYER_PRIVATE_KEY || "0"],
+            allowUnlimitedContractSize: true,
+            httpHeaders: {
+                Authorization: "Basic " + Buffer.from(PROVIDER_API_ID + ":" + PROVIDER_API_KEY).toString("base64"),
+                "x-chain-id": "1001",
+                keepAlive: "false",
+            },
+        },
+        cypress: {
+            url: PRIVATE_PROVIDER_URL || "",
+            chainId: +(CHAIN_ID || 0),
+            from: DEPLOYER_ACCOUNT || "",
+            gas: 8500000,
+            accounts: [DEPLOYER_PRIVATE_KEY || "0"],
+            allowUnlimitedContractSize: true,
+            httpHeaders: {
+                Authorization:
+                    "Basic " +
+                    Buffer.from(process.env.PROVIDER_API_ID + ":" + process.env.PROVIDER_API_KEY).toString("base64"),
+                "x-chain-id": "8217",
+                keepAlive: "false",
+            },
+        },
     },
     gasReporter: {
         enabled: process.env.REPORT_GAS !== undefined,
